@@ -1,0 +1,5 @@
+Note that in its current form the LDAP Login is commented out.
+
+Edit lib/pages/login.php if you want to enable it.
+
+
