@@ -1,0 +1,19 @@
+form {
+    display: inline;
+    text-align: left;  
+    width: 400px
+}
+
+input, select {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+form div {
+	text-align: right;
+	padding-right: 10px;
+	margin-top: 5px;
+    margin-bottom: 5px;
+	width: 150px;
+	float: left;
+}

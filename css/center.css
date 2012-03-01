@@ -1,0 +1,36 @@
+html {
+    height:99%;
+    width:99%;
+}
+body {
+    height:99%;
+    width: 98%;
+    margin: 0;
+    padding: 8px;
+}
+
+#container {
+	margin: 0;
+    height:80%;
+    width:100%;
+    display:table;
+    vertical-align:middle;
+}
+#body {
+	margin: 0;
+    text-align: center;
+    position:relative;
+    vertical-align:middle;
+    display:table-cell;
+}
+
+h2 {
+	margin: 0;
+    font-size: 22px;
+}
+
+p {
+	margin: 0;
+    font-size: 15px;
+    font-weight: bold;
+}

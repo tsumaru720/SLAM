@@ -1,0 +1,30 @@
+body {
+    font-family: "DejaVu Sans", sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding: 8px;
+}
+
+h1 {
+    font-weight: none;
+}
+
+a, a:visited {
+	color: blue;
+}
+
+.errorText {
+    color: red;
+}
+
+#header {
+    margin: 0;
+    padding: 15px 0 20px 0;
+    font-size: 30px;
+    border-bottom: 1px solid #0000a0;
+}
+
+#nav1, #nav2, #nav3 {
+	margin: 0;
+	float: left;
+}

@@ -1,0 +1,36 @@
+#results, #linkresults {
+	width: 100%;
+	border: 1px solid red;
+	border-collapse:collapse;
+}
+
+#linkresults tr:hover, #linkresults a:hover, #results a:hover {
+	background-color: #CCFF99;
+	cursor: pointer;
+}
+
+#results td, #results tr, #linkresults td, #linkresults tr {
+	border: 1px solid black;
+	text-align: center;
+}
+
+#results #headers, #linkresults #headers {
+	background-color: #999999;
+	font-weight: bold;
+}
+
+#results .colour1, #linkresults .colour1 {
+	background-color: #dddddd;
+}
+
+#results .colour2, #linkresults .colour2 {
+	background-color: #ffffff;
+}
+
+#results .colour3, #linkresults .colour3 {
+	background-color: #ff9999;
+}
+
+#results .colour4, #linkresults .colour4 {
+	background-color: #99FF66;
+}
