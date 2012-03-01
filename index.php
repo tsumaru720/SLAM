@@ -81,7 +81,7 @@ function buildNavigationLine($category, $menuItems) {
     </head>
 
 <body>
-<h1 id="header"><b>FedEx UK SLAM</b> <span style="font-weight: none; font-size: 10px;">(<i>S</i>oftware <i>L</i>icensing <i>A</i>llocation <i>M</i>anager)</span>
+<h1 id="header"><b>SLAM</b> <span style="font-weight: none; font-size: 10px;">(<i>S</i>oftware <i>L</i>icensing <i>A</i>llocation <i>M</i>anager)</span>
 </h1>
 
 <?php
