@@ -81,9 +81,13 @@ function buildNavigationLine($category, $menuItems) {
     </head>
 
 <body>
+
 <h1 id="header"><b>SLAM</b> <span style="font-weight: none; font-size: 10px;">(<i>S</i>oftware <i>L</i>icensing <i>A</i>llocation <i>M</i>anager)</span>
 </h1>
-
+<?php
+//Check for popout window
+if ($_GET['popout'] != '1') {
+?>
 <?php
 
 	if (checkLogin()) {
@@ -144,6 +148,14 @@ function buildNavigationLine($category, $menuItems) {
 		}
 		echo '<div>&nbsp;</div>';
 	}
+	?>
+	<?php
+//End popout checking code
+} else {
+	echo '<br>';
+}
+	?>
+<?php
     if (function_exists('showPageBody')) {
         showPageBody();
     }
