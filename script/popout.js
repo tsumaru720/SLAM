@@ -1,3 +1,7 @@
 function popout(url) {
-    window.open(url + '&popout=1', 'popoutWindow', 'width=900, height=800, toolbar=no, status=no, menubar=no, scrollbars=yes');
+    window.open(url, 'popoutWindow', 'width=900, height=800, toolbar=no, status=no, menubar=no, scrollbars=yes');
+}
+
+if (window.name == 'popoutWindow') {
+	document.write('<style>.nav, .nav2, .navspacer { display: none; }</style>');
 }

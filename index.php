@@ -85,10 +85,6 @@ function buildNavigationLine($category, $menuItems) {
 <h1 id="header"><b>SLAM</b> <span style="font-weight: none; font-size: 10px;">(<i>S</i>oftware <i>L</i>icensing <i>A</i>llocation <i>M</i>anager)</span>
 </h1>
 <?php
-//Check for popout window
-if ($_GET['popout'] != '1') {
-?>
-<?php
 
 	if (checkLogin()) {
 		$navigationHeaders = array('Dashboard' => '/',
@@ -146,14 +142,8 @@ if ($_GET['popout'] != '1') {
 			echo '<div>&nbsp;</div>';
 			echo '<div class="nav2">'.buildNavigationLine($PAGE_SUB_CATEGORY, $reportItems).'</div>';
 		}
-		echo '<div>&nbsp;</div>';
+		echo '<div class="navspacer">&nbsp;</div>';
 	}
-	?>
-	<?php
-//End popout checking code
-} else {
-	echo '<br>';
-}
 	?>
 <?php
     if (function_exists('showPageBody')) {
