@@ -14,9 +14,10 @@
 	text-align: center;
 }
 
-#results #headers, #linkresults #headers {
+#results #header, #linkresults #header {
 	background-color: #999999;
 	font-weight: bold;
+	cursor: auto;
 }
 
 #results .colour1, #linkresults .colour1 {
@@ -33,4 +34,13 @@
 
 #results .colour4, #linkresults .colour4 {
 	background-color: #99FF66;
+}
+
+#linkresults .noHover, #results .noResults {
+	background-color: #dddddd;
+	cursor: auto;
+}
+#linkresults .noHover:hover {
+	cursor: auto;
+	background-color: #dddddd;
 }

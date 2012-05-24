@@ -1,5 +1,15 @@
-Note that in its current form the LDAP Login is commented out.
+SLAM
+=======
 
-Edit lib/pages/login.php if you want to enable it.
+At the moment the initial setup does not import the database structure for you.
+
+You should do this manually by importing the .sql file first.
+Once this is done put everything else into a folder visible in a browser and navigate to the root - You should now be greeted with an SQL setup screen.
 
 
+Initial usernames and passwords are:
+
+Administrator / password
+Test / test
+
+(Really Secure!!!!)

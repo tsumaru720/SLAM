@@ -1,19 +1,24 @@
 form {
-    display: inline;
-    text-align: left;  
-    width: 400px
+	display: inline-block;
+	text-align: left;
+}
+
+form label {
+	display: inline-block;
+	width: 160px;
+	text-align: right;
 }
 
 input, select {
-    margin-top: 3px;
-    margin-bottom: 3px;
+	margin: 3px;    
 }
 
-form div {
-	text-align: right;
-	padding-right: 10px;
-	margin-top: 5px;
-    margin-bottom: 5px;
-	width: 150px;
-	float: left;
+.button {
+	margin-left: 125px;
+}
+
+.infoText {
+	margin-left: 30px;
+	font-style: italic;
+	font-weight: bold;
 }

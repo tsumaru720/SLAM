@@ -6,12 +6,13 @@ body {
 	height: 99%;
 	width: 98%;
 	margin: 0;
-	padding: 8px;
+	padding: 0;
 	background-image: none;
 }
 
 #container {
 	margin: 0;
+	padding: 0;
 	height: 100%;
 	width: 100%;
 	display: table;
@@ -19,19 +20,9 @@ body {
 }
 #body {
 	margin: 0;
+	/*padding-left: 200px;*/
 	text-align: center;
 	position: relative;
 	vertical-align: middle;
 	display: table-cell;
-}
-
-h2 {
-	margin: 0;
-	font-size: 22px;
-}
-
-p {
-	margin: 0;
-	font-size: 15px;
-	font-weight: bold;
 }

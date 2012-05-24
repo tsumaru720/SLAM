@@ -1,0 +1,13 @@
+body {
+	padding: 8px;
+	background-image: none;
+}
+
+#mainNavigation, #subNavigation { 
+	display: none;
+}
+
+#container {
+	margin: 0;
+	padding: 0;
+}

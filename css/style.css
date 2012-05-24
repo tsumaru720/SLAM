@@ -1,30 +1,142 @@
 body {
-    font-family: "DejaVu Sans", sans-serif;
-    font-size: 12px;
-    margin: 0;
-    padding: 8px;
+	font-family: "DejaVu Sans", sans-serif;
+	font-size: 12px;
+	margin: 0;
+	padding: 89px 0 0 200px;
+	background-color: #fffcf4;
+	background-image: url('../images/background.png');
+	background-repeat: repeat-y;
 }
 
-h1 {
-    font-weight: none;
+img {
+	border: 0;
 }
 
 a, a:visited {
-	color: blue;
+	color: white;
+	text-decoration: none;
 }
 
-.errorText {
-    color: red;
+#mainNavigation {
+	width: 100%;
+	background-color: black;
+	font-size: 10px;
+	font-weight: bold;
+	float: left;
+	height: 90px;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	position: absolute;
 }
 
-#header {
-    margin: 0;
-    padding: 15px 0 20px 0;
-    font-size: 30px;
-    border-bottom: 1px solid #0000a0;
-}
-
-#nav1, #nav2, #nav3 {
+#mainNavigation ul {
 	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	color: white;
+	vertical-align: bottom;
+	height: 100%;
+}
+
+#mainNavigation ul li {
+	background-color: black;
+	vertical-align: bottom;
+	width: 100px;
+	display: block;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	float: left;
+	height: 100%;
+}
+
+#mainNavigation ul #logout {
+	float: right;
+}
+
+#mainNavigation ul #logout a {
+	margin-top: 67px;
+}
+
+
+#mainNavigation li a {
+	display: block;
+	vertical-align: bottom;
+	padding: 5px 0 5px 0;
+}
+
+#mainNavigation li a:hover {
+	text-decoration: none;
+	background-color: #0098b8;
+}
+
+#container #body .link:hover {
+	text-decoration: none;
+	background-color: #99c5cf;
+}
+
+#mainNavigation .active {
+	background-color: #666666;
+}
+
+#subNavigation {
+	top: 0;
+	left: 0;
+	width: 200px;
+	float: left;
+	height: 100%;
+	position: absolute;
+}
+
+#subNavigation ul {
+	margin: 0;
+	padding: 0;
+	margin-top: 90px;
+	background-color: #fff8ec;
+	list-style-type: none;
+	color: black;
+}
+
+#subNavigation ul li {
+	line-height: 1.5em;
+	font-weight: bold;
+	display: block;
+	vertical-align: middle;
+	border-collapse: collapse;
+}
+
+#subNavigation li a {
+	display: block;
+	padding: 0 5px 0 5px;
+	color: black;
+}
+
+#subNavigation li a:hover {
+	text-decoration: none;
+	background-color: #d9b786;
+}
+
+#subNavigation .active {
+	background-color: #f8ce93;
+}
+
+#container {
+	text-align: justify;
+	padding: 20px 50px 20px 50px;
+}
+
+#container a, #container a:visited {
+	color: blue;
+	text-decoration: none;
+}
+
+#container #body .link {
+	width: 50px;
+	text-align: center;
+	display: block;
+	padding: 3px;
+	margin-bottom: 5px;
+	margin-right: 5px;
 	float: left;
 }
