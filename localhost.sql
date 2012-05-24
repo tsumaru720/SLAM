@@ -361,5 +361,5 @@ CREATE TABLE IF NOT EXISTS `userAccounts` (
 --
 
 INSERT INTO `userAccounts` (`id`, `username`, `passwordHash`, `firstName`, `lastName`, `displayName`, `emailAddress`, `created`, `lastSeen`, `enabled`, `isAdmin`) VALUES
-(1, 'administrator', '9f8ccf9afb8dd57c0a4e87cd8dbff31b', 'Administrator', '', 'Administrator', 'admin@agari.co', 1332006906, 1337864711, 1, 1),
-(2, 'test', '7ee363afd403529d3597f7a53bddead9', 'Test', '', 'Test Account', 'test@agari.co', 1332006906, 1337675948, 1, 0);
+(1, 'administrator', '9f8ccf9afb8dd57c0a4e87cd8dbff31b', 'Administrator', '', 'Administrator', 'admin@youremail.com', 1332006906, 1337864711, 1, 1),
+(2, 'test', '7ee363afd403529d3597f7a53bddead9', 'Test', '', 'Test Account', 'test@youremail.com', 1332006906, 1337675948, 1, 0);
