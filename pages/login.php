@@ -26,6 +26,7 @@ function getBody() {
 		}
 		$auth = checkAuthentication($config['authType'], strtolower($_POST['username']), $_POST['password']);
 		//header('Location: '.dirname($_SERVER['SCRIPT_NAME']).'/');
+
 		header('Location: '.$_SERVER['HTTP_REFERER']);
 	} else {
 		if (!empty($errorMsg)) {
@@ -51,9 +52,13 @@ function checkAuthentication($authType, $username, $password) {
 		if ($user = mysql_fetch_assoc($query)) {
 			if (filter_var($user['enabled'], FILTER_VALIDATE_BOOLEAN)) {
 				$_SESSION['authenticated'] = true;
+				$_SESSION['firstName'] = $user['firstName'];
 				$_SESSION['displayName'] = $user['displayName'];
 				$_SESSION['id'] = $user['id'];
 				$_SESSION['isAdmin'] = filter_var($user['isAdmin'], FILTER_VALIDATE_BOOLEAN);
+				if (filter_var($user['forcePasswordChange'], FILTER_VALIDATE_BOOLEAN)) {
+					$_SESSION['newPassword'] = true;
+				}
 				return true;
 			} else {
 				showError('Account Locked', true);
@@ -89,9 +94,9 @@ function showForm($authType) {
 ?>
 	<p>&nbsp;</p>
 	<div class="form">
-	<form action="?a=check" method="post">
-		<label for="username">Username: </label><input type="text" name="username"<?php echo (!empty($_POST['username']) ? ' value="'.$_POST['username'].'"' : '');?>/><br/>
-		<label for="password">Password: </label><input type="password" name="password"/><br/>
+	<form action="?a=check" method="post" autocomplete="on">
+		<label for="username">Username: </label><input <?php echo (empty($_POST['username']) ? 'autofocus="autofocus" ' : '');?>type="text" name="username"<?php echo (!empty($_POST['username']) ? ' value="'.$_POST['username'].'"' : '');?>/><br/>
+		<label for="password">Password: </label><input <?php echo (!empty($_POST['username']) ? 'autofocus="autofocus" ' : '');?>type="password" name="password" autocomplete="off"/><br/>
 		<input style="margin-left: 125px;" type="submit" value="Login"/>
 	</form>
 	</div>

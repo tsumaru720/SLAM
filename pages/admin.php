@@ -9,7 +9,6 @@ function doHeader() {
 
 	echo '<link rel="stylesheet" type="text/css" href="css/form.css">';
 	echo '<link rel="stylesheet" type="text/css" href="css/results.css">';
-	echo '<script src="script/popout.js"></script>';
 
 	$activePage = 'admin';
 
@@ -98,11 +97,256 @@ function showError($error, $fatal = false) {
 	}
 }
 
+/*
+	if (!empty($errorMsg)) {
+		echo '<p><span style="color: red;">'.$errorMsg.'</span></p>';
+	}
+*/
+
 function doUsers() {
-	echo '<div style="margin-top: 200px;text-align: center;">';
-	echo '<img src="images/error.png">';
-	echo '<h2>Not Implemented Yet</h2>';
-	echo '</div>';
+	global $SQL, $errorMsg;
+	
+	if ($_GET['t'] == 'new') {
+		if ($_GET['c'] == 'confirm' && !$errorMsg) {
+			$_POST['username'] = strtolower($_POST['username']);
+
+			$query = mysql_query("SELECT id, displayName FROM ".$SQL['DATABASE'].".userAccounts WHERE username = '".mysql_real_escape_string($_POST['username'])."'");
+			if ($user = mysql_fetch_assoc($query)) {
+				showError('That username is already in use by <b>'.$user['displayName'].'</b>.<BR><BR>Please click here to view: <a href="?p=admin&a=users&t=edit='.$user['id'].'">'.$_POST['username'].'</a>',true);
+				return;
+			}
+
+			if (strlen($_POST['password']) < 5) {
+				showError('Password is too short', true);
+				return;
+			}
+			if ($_POST['password'] != $_POST['cpassword']) {
+				showError('Passwords do not match', true);
+				return;
+			}
+			if ((!is_numeric($_POST['admin']) || ($_POST['admin'] && ($_POST['admin'] > 1) || ($_POST['admin'] < 0)))) {
+				if ($_POST['admin'] != null) {
+					showError('Value of Administrator checkbox is invalid', true);
+					return;
+				}
+			}
+			if ((!is_numeric($_POST['enabled']) || ($_POST['enabled'] && ($_POST['enabled'] > 1) || ($_POST['enabled'] < 0)))) {
+				if ($_POST['enabled'] != null) {
+					showError('Value of Enabled checkbox is invalid', true);
+					return;
+				}
+			}
+			if ((!is_numeric($_POST['fpassword']) || ($_POST['fpassword'] && ($_POST['fpassword'] > 1) || ($_POST['fpassword'] < 0)))) {
+				if ($_POST['fpassword'] != null) {
+					showError('Value of Force Password Change checkbox is invalid', true);
+					return;
+				}
+			}
+			if (empty($_POST['dname'])) {
+				showError('Display Name cannot be empty', true);
+				return;
+			}
+
+			$passwordHash = md5(strlen($_POST['username'].$_POST['password']).$_POST['username'].$_POST['password']);
+			mysql_query("INSERT INTO  ".$SQL['DATABASE'].".userAccounts (
+				`id` ,
+				`username` ,
+				`passwordHash` ,
+				`firstName` ,
+				`lastName` ,
+				`displayName` ,
+				`emailAddress` ,
+				`created` ,
+				`lastSeen` ,
+				`enabled` ,
+				`isAdmin` ,
+				`forcePasswordChange`
+				)
+				VALUES (NULL ,  
+				'".mysql_real_escape_string($_POST['username'])."',
+				'".$passwordHash."',
+				'".mysql_real_escape_string($_POST['fname'])."',
+				'".mysql_real_escape_string($_POST['lname'])."',
+				'".mysql_real_escape_string($_POST['dname'])."',
+				'".mysql_real_escape_string($_POST['email'])."',
+				'".time()."',
+				'0',
+				'".mysql_real_escape_string($_POST['enabled'])."',
+				'".mysql_real_escape_string($_POST['admin'])."',
+				'".mysql_real_escape_string($_POST['fpassword'])."')");
+
+			//Clear $_POST variables so that they are not reused after a successful addition
+			echo '<p>User account created: <a href="?p=admin&a=users&t=edit&id='.mysql_insert_id().'">'.$_POST['username'].'</a></p>';
+			$_POST = array();
+		}
+
+		if (!empty($errorMsg)) {
+			echo '<p><span style="color: red;">'.$errorMsg.'</span></p>';
+		}	
+		?>
+		<form method="post" action="?p=admin&a=users&t=new&c=confirm">
+		<label for="username">Username: </label><input type="text" name="username" value="<?php echo $_POST['username']; ?>"><br/>
+		<label for="password">Password: </label><input type="password" name="password" value="<?php echo (array_key_exists('password',$_POST) ? $_POST['password'] : '12345');?>"><span class="infoText"><-- Case sensitive - Default is "12345"</span><br/>
+		<label for="cpassword">Confirm Password: </label><input type="password" name="cpassword" value="<?php echo (array_key_exists('cpassword',$_POST) ? $_POST['cpassword'] : '12345');?>"><span class="infoText"><-- Case sensitive - Default is "12345"</span><br/><br/>
+		
+		<label for="fname">First Name: </label><input type="text" name="fname" value="<?php echo $_POST['fname']; ?>"><br/>
+		<label for="lname">Last Name: </label><input type="text" name="lname" value="<?php echo $_POST['lname']; ?>"><br/>
+		<label for="dname">Display Name: </label><input type="text" name="dname" value="<?php echo $_POST['dname']; ?>"><span class="infoText"><-- This will be displayed on all activity</span><br/>
+		<label for="email">Email Address: </label><input type="text" name="email" value="<?php echo $_POST['email']; ?>"><br/><br/>
+		<label for="admin">Administrator: </label><input type="checkbox" name="admin" value="1"<?php echo (($_POST['admin'] == 1) ? ' CHECKED' : ''); ?>><span class="infoText"><-- Give this user Admin access</span><br/>
+		<label for="enabled">Enabled: </label><input type="checkbox" name="enabled" value="1"<?php echo (($_POST['enabled'] == 1 || !array_key_exists('enabled', $_POST)) ? ' CHECKED' : ''); ?>><span class="infoText"><-- Unticked means locked (Can't log in)</span><br/><br/>
+		
+		<label for="fpassword">Force Password Change: </label><input type="checkbox" name="fpassword" value="1"<?php echo (($_POST['fpassword'] == 1 || !array_key_exists('fpassword', $_POST)) ? ' CHECKED' : ''); ?>><span class="infoText"><-- Forces the user to change password on next log in</span><br/><br/>
+
+		<input class="button" type="submit" name="action" value="Create Account"></form>
+		<?php
+	} elseif ($_GET['t'] == 'edit') {
+		if (!empty($_POST['id'])) {
+			$id = $_POST['id'];
+		} elseif (isset($_GET['id']) && !empty($_GET['id'])) {
+			$id = $_GET['id'];
+		} else {
+			echo '<p>There was an error getting the information to view, please go back and try again.</p>';
+			return;
+		}
+
+		$query = mysql_query("SELECT * FROM ".$SQL['DATABASE'].".userAccounts WHERE id = '".mysql_real_escape_string($id)."'");
+		if (mysql_num_rows($query) == 0) {
+			echo '<p>This ID is not in the Database!</p>';
+			return;
+		}
+
+		if ($_POST['action'] == "Edit details" || !$_POST) {
+			$info = mysql_fetch_assoc($query);
+
+			if ($_POST) {
+				$display['username'] = $info['username'];
+				$display['fname'] = $_POST['fname'];
+				$display['lname'] = $_POST['lname'];
+				$display['dname'] = $_POST['dname'];
+				$display['email'] = $_POST['email'];
+				$display['admin'] = $_POST['admin'];
+				$display['enabled'] = $_POST['enabled'];
+				$display['fpassword'] = $_POST['fpassword'];
+			}
+
+			if ($_GET['c'] == 'confirm' && !$errorMsg) {
+				$_POST['username'] = strtolower($_POST['username']);
+
+				if ((!is_numeric($_POST['admin']) || ($_POST['admin'] && ($_POST['admin'] > 1) || ($_POST['admin'] < 0)))) {
+					if ($_POST['admin'] != null) {
+						showError('Value of Administrator checkbox is invalid', true);
+						return;
+					}
+				}
+				if ((!is_numeric($_POST['enabled']) || ($_POST['enabled'] && ($_POST['enabled'] > 1) || ($_POST['enabled'] < 0)))) {
+					if ($_POST['enabled'] != null) {
+						showError('Value of Enabled checkbox is invalid', true);
+						return;
+					}
+				}
+				if ((!is_numeric($_POST['fpassword']) || ($_POST['fpassword'] && ($_POST['fpassword'] > 1) || ($_POST['fpassword'] < 0)))) {
+					if ($_POST['fpassword'] != null) {
+						showError('Value of Force Password Change checkbox is invalid', true);
+						return;
+					}
+				}
+				if (empty($_POST['dname'])) {
+					showError('Display Name cannot be empty', true);
+					return;
+				}
+
+
+				mysql_query("UPDATE ".$SQL['DATABASE'].".userAccounts SET
+					`firstName` =  '".mysql_real_escape_string($_POST['fname'])."',
+					`lastName` =  '".mysql_real_escape_string($_POST['lname'])."',
+					`displayName` =  '".mysql_real_escape_string($_POST['dname'])."',
+					`emailAddress` =  '".mysql_real_escape_string($_POST['email'])."',
+					`enabled` =  '".mysql_real_escape_string($_POST['enabled'])."',
+					`isAdmin` =  '".mysql_real_escape_string($_POST['admin'])."',
+					`forcePasswordChange` =  '".mysql_real_escape_string($_POST['fpassword'])."'
+					WHERE  id = ".mysql_real_escape_string($id));
+
+
+				echo '<p>Details Saved</p>';
+				header('Location: '.(dirname($_SERVER['SCRIPT_NAME']) != '/' ? dirname($_SERVER['SCRIPT_NAME']) : '').'/?p=admin&a=users');
+				return;
+			} else {
+				if (!$display) {
+					$display['username'] = $info['username'];
+					$display['fname'] = $info['firstName'];
+					$display['lname'] = $info['lastName'];
+					$display['dname'] = $info['displayName'];
+					$display['email'] = $info['emailAddress'];
+					$display['admin'] = $info['isAdmin'];
+					$display['enabled'] = $info['enabled'];
+					$display['fpassword'] = $info['forcePasswordChange'];
+				}
+			}
+		} else {
+			mysql_query("DELETE FROM ".$SQL['DATABASE'].".userAccounts WHERE id = ".mysql_real_escape_string($id));
+			mysql_query("DELETE FROM ".$SQL['DATABASE'].".userPreferences WHERE userID = ".mysql_real_escape_string($id));
+			header('Location: '.(dirname($_SERVER['SCRIPT_NAME']) != '/' ? dirname($_SERVER['SCRIPT_NAME']) : '').'/?p=admin&a=users');
+			return;
+		}
+
+		if (!empty($errorMsg)) {
+			echo '<p><span style="color: red;">'.$errorMsg.'</span></p>';
+		}
+
+		?>
+		<form method="post" action="?p=admin&a=users&t=edit&c=confirm">
+		<input type="hidden" name="id" value="<?php echo $id;?>">
+		<label for="username">Currently Editing: </label><input type="text" name="username" value="<?php echo $display['username']; ?>" DISABLED><br/><BR>
+		
+		<label for="fname">First Name: </label><input type="text" name="fname" value="<?php echo $display['fname']; ?>"><br/>
+		<label for="lname">Last Name: </label><input type="text" name="lname" value="<?php echo $display['lname']; ?>"><br/>
+		<label for="dname">Display Name: </label><input type="text" name="dname" value="<?php echo $display['dname']; ?>"><span class="infoText"><-- This will be displayed on all activity</span><br/>
+		<label for="email">Email Address: </label><input type="text" name="email" value="<?php echo $display['email']; ?>"><br/><br/>
+		<label for="admin">Administrator: </label><input type="checkbox" name="admin" value="1"<?php echo (($display['admin'] == 1) ? ' CHECKED' : ''); ?>><span class="infoText"><-- Give this user Admin access</span><br/>
+		<label for="enabled">Enabled: </label><input type="checkbox" name="enabled" value="1"<?php echo (($display['enabled'] == 1) ? ' CHECKED' : ''); ?>><span class="infoText"><-- Unticked means locked (Can't log in)</span><br/><br/>
+		
+		<label for="fpassword">Force Password Change: </label><input type="checkbox" name="fpassword" value="1"<?php echo (($display['fpassword'] == 1) ? ' CHECKED' : ''); ?>><span class="infoText"><-- Forces the user to change password on next log in</span><br/><br/>
+
+		<input class="button" type="submit" name="action" value="Edit details"> &nbsp; <input type="submit" name="action" value="Delete account"></form>
+		<?php
+	} else {
+	
+		require_once('share/duration.php');
+	
+		echo '<a class="link" href="?p=admin&a=users&t=new"><img src="images/add.png"><br>New</a>';
+		$query = mysql_query("SELECT * FROM ".$SQL['DATABASE'].".userAccounts ORDER BY enabled DESC, firstName ASC");
+		echo '<table id="results" style="width: 900px;">';
+		echo '<tr id="header">
+				<td>Username</td>
+				<td>Display Name</td>
+				<td>First Name</td>
+				<td>Last Name</td>
+				<td>Email</td>
+				<td>Admin</td>
+				<td>Last Activity</td>
+				</tr>';
+		
+		$i = "colour1";
+		while ($info = mysql_fetch_assoc($query)) {
+			$colour = $i;
+			echo '<tr class="'.$colour.'">';
+			echo '<td><a style="text-align: left; display: block;" href="?p=admin&a=users&t=edit&id='.$info['id'].'"><img style="vertical-align: middle" src="images/user-'.($info['enabled'] ? "enabled" : "disabled").'.png" title="Account '.($info['enabled'] ? "Enabled" : "Locked").'">'.$info['username'].'</a></td>';
+			echo '<td>'.$info['displayName'].'</td>';
+			echo '<td>'.$info['firstName'].'</td>';
+			echo '<td>'.$info['lastName'].'</td>';
+			echo '<td>'.$info['emailAddress'].'</td>';
+			echo '<td><img style="vertical-align: middle" src="images/'.($info['isAdmin'] ? "tick" : "cross").'.png"></td>';
+			if ($info['lastSeen'] == 0) {
+				echo '<td>Never</td>';
+			} else {
+				echo '<td>'.((time() - $info['lastSeen']) == 0 ? 'Just now' : duration(time() - $info['lastSeen']).' ago').'</td>';
+			}
+			echo '</tr>';
+			$i = ($i == "colour1") ? "colour2" : "colour1";
+		}
+		echo '</table>';
+	}
 }
 
 function doConfig() {

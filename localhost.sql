@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 24, 2012 at 02:07 PM
+-- Generation Time: Jun 04, 2012 at 05:32 PM
 -- Server version: 5.1.41
 -- PHP Version: 5.3.2-1ubuntu4.14
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `computerChangeLog` (
   `new` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `date` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `computerChangeLog`
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `computers` (
   `comments` text COLLATE utf8_unicode_ci NOT NULL,
   `active` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `computers`
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `configuration` (
   `values` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `validation` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=7 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `configuration`
@@ -92,10 +92,10 @@ CREATE TABLE IF NOT EXISTS `configuration` (
 
 INSERT INTO `configuration` (`id`, `name`, `friendlyName`, `value`, `userPref`, `values`, `validation`) VALUES
 (1, 'defaultMaintenanceFee', 'Default Maintenance Cost', '5.5', 1, '', ''),
-(3, 'authType', 'Authentication Handler', 'slam', 0, 'slam', ''),
-(4, 'linkType', 'Result Link Type', 'inline', 1, 'inline,popout', ''),
-(5, 'pageSize', 'Number of Results to display per page', '50', 1, '', ''),
-(6, 'timeout', 'Session Timeout in seconds', '300', 0, '', '');
+(2, 'authType', 'Authentication Handler', 'slam', 0, 'slam', ''),
+(3, 'linkType', 'Result Link Type', 'inline', 1, 'inline,popout', ''),
+(4, 'pageSize', 'Number of Results to display per page', '50', 1, '', ''),
+(5, 'timeout', 'Session Timeout in seconds', '300', 0, '', '');
 
 -- --------------------------------------------------------
 
@@ -175,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `licenses` (
   `product` int(11) NOT NULL,
   `license` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `licenses`
@@ -194,14 +194,14 @@ CREATE TABLE IF NOT EXISTS `locations` (
   `corporate` tinyint(4) NOT NULL DEFAULT '0',
   `hidden` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `locations`
 --
 
 INSERT INTO `locations` (`id`, `friendlyName`, `corporate`, `hidden`) VALUES
-(1, 'Default Location', 1, 0);
+(2, 'Example Location', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -218,7 +218,7 @@ CREATE TABLE IF NOT EXISTS `orderChangeLog` (
   `new` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `date` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `orderChangeLog`
@@ -235,7 +235,7 @@ CREATE TABLE IF NOT EXISTS `orderStatuses` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `friendlyName` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `orderStatuses`
@@ -256,14 +256,14 @@ CREATE TABLE IF NOT EXISTS `orderSuppliers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `friendlyName` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `orderSuppliers`
 --
 
 INSERT INTO `orderSuppliers` (`id`, `friendlyName`) VALUES
-(1, 'Default Supplier');
+(2, 'Example Supplier');
 
 -- --------------------------------------------------------
 
@@ -291,7 +291,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `comments` text COLLATE utf8_unicode_ci NOT NULL,
   `confirmed` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `orders`
@@ -308,14 +308,14 @@ CREATE TABLE IF NOT EXISTS `ordersCanAuthorize` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `friendlyName` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `ordersCanAuthorize`
 --
 
 INSERT INTO `ordersCanAuthorize` (`id`, `friendlyName`) VALUES
-(1, 'The Boss');
+(2, 'The Boss');
 
 -- --------------------------------------------------------
 
@@ -328,7 +328,7 @@ CREATE TABLE IF NOT EXISTS `products` (
   `friendlyName` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `defaultKey` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `products`
@@ -353,6 +353,7 @@ CREATE TABLE IF NOT EXISTS `userAccounts` (
   `lastSeen` int(11) NOT NULL,
   `enabled` tinyint(4) NOT NULL,
   `isAdmin` tinyint(4) NOT NULL,
+  `forcePasswordChange` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
@@ -360,6 +361,26 @@ CREATE TABLE IF NOT EXISTS `userAccounts` (
 -- Dumping data for table `userAccounts`
 --
 
-INSERT INTO `userAccounts` (`id`, `username`, `passwordHash`, `firstName`, `lastName`, `displayName`, `emailAddress`, `created`, `lastSeen`, `enabled`, `isAdmin`) VALUES
-(1, 'administrator', '9f8ccf9afb8dd57c0a4e87cd8dbff31b', 'Administrator', '', 'Administrator', 'admin@youremail.com', 1332006906, 1337864711, 1, 1),
-(2, 'test', '7ee363afd403529d3597f7a53bddead9', 'Test', '', 'Test Account', 'test@youremail.com', 1332006906, 1337675948, 1, 0);
+INSERT INTO `userAccounts` (`id`, `username`, `passwordHash`, `firstName`, `lastName`, `displayName`, `emailAddress`, `created`, `lastSeen`, `enabled`, `isAdmin`, `forcePasswordChange`) VALUES
+(1, 'administrator', '9f8ccf9afb8dd57c0a4e87cd8dbff31b', 'Administrator', '', 'Administrator', 'admin@domain.com', 1332006906, 1338827310, 1, 1, 0),
+(2, 'test', '1c24584c51e9464d62655cf95772c2e0', 'Test', '', 'Test Account', 'test@email.com', 1332006906, 1338827371, 1, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `userPreferences`
+--
+
+CREATE TABLE IF NOT EXISTS `userPreferences` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userID` int(11) NOT NULL,
+  `name` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `value` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `userPreferences`
+--
+
+

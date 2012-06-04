@@ -25,11 +25,13 @@ return array(
 }
 
 function getBody() {
-	echo 'Hello '.$_SESSION['displayName'];
+	global $config;
+	echo 'Hello '.$_SESSION['firstName'];
 	echo '<pre>';
+
 	var_dump($_SESSION);
 	var_dump(ini_get( 'session.gc_maxlifetime'));
-	
+	var_dump($config);
 	echo '</pre>';
 }
 ?>

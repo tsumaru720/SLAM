@@ -15,18 +15,23 @@ if (!file_exists(dirname(__FILE__).'/config.php')) {
 	while ($sqlConfig = mysql_fetch_assoc($query)) {
 		$config[$sqlConfig['name']] = $sqlConfig['value'];
 	}
+	if ($_SESSION['id']) {
+		$query = mysql_query("SELECT name, value FROM ".$SQL['DATABASE'].".userPreferences WHERE userID = ".$_SESSION['id']);
+		while ($sqlConfig = mysql_fetch_assoc($query)) {
+			$config[$sqlConfig['name']] = $sqlConfig['value'];
+		}
+	}
 }
 
 if (empty($_SESSION['authenticated']) && empty($page)) {
 	$page = 'login';
 }
 
-if ($config['authType'] == 'slam') {
+if ($config['authType'] == 'slam' && is_numeric($_SESSION['id'])) {
 	mysql_query("UPDATE  ".$SQL['DATABASE'].".userAccounts SET  `lastSeen` =  '".time()."' WHERE  id = ".$_SESSION['id'].";");
 }
 
 if (empty($page)) {
-
 	if (empty($_GET['p'])) {
 		$page = 'dashboard';
 	} else {
@@ -34,8 +39,21 @@ if (empty($page)) {
 	}
 }
 
+if ($_SESSION['newPassword']) {
+	if (!($page == 'preferences' && $_GET['a'] == 'password' && $_GET['t'] == 'confirm')) {
+		$page = 'preferences';
+		$_GET['a'] = 'password';
+	}
+}
+
 if (file_exists(dirname(__FILE__).'/pages/'.$page.'.php') && !empty($page)) {
-	require_once(dirname(__FILE__).'/pages/'.$page.'.php');
+
+	if ($page == 'admin' && !$_SESSION['isAdmin']) {
+		//403 Error.
+		require_once(dirname(__FILE__).'/pages/error/403.php');	
+	} else {
+		require_once(dirname(__FILE__).'/pages/'.$page.'.php');
+	}
 } else {
 	//404 Error.
 	require_once(dirname(__FILE__).'/pages/error/404.php');
@@ -76,7 +94,7 @@ if ($contentOnly != true) { ?>
 	<?php
 	}
 	?>
-			<li id="logout"><a href="?p=logout">Logout</a></li>
+			<li id="logout"><a href="?p=logout" title="Logout of '<?php echo $_SESSION['displayName']; ?>'">Logout<?php echo (strlen($_SESSION['firstName']) <= 10 ? ' '.$_SESSION['firstName'] : ''); ?></a></li>
 			</ul>
 		</div>
 	<?php
