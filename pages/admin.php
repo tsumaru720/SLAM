@@ -354,6 +354,9 @@ function doConfig() {
 	
 	if ($_GET['t'] == 'confirm') {
 		foreach ($_POST as $key => $value) {
+			if ($key == 'timeout') {
+				$value = ($value > ini_get( 'session.gc_maxlifetime') ? ini_get( 'session.gc_maxlifetime') : $value);
+			}
 			mysql_query("UPDATE ".$SQL['DATABASE'].".configuration SET value = '".mysql_real_escape_string($value)."' WHERE name = '".mysql_real_escape_string($key)."'");
 		}
 		echo '<p>Done</p>';
