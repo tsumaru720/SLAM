@@ -23,12 +23,21 @@ if (!file_exists(dirname(__FILE__).'/config.php')) {
 	}
 }
 
+if ((time() - $_SESSION['lastSeen']) >= $config['timeout']) {
+	//Force all session information to be cleared.
+	//This will ensure the user needs to log on again.
+	foreach ($_SESSION as $key => $value) {
+		unset($_SESSION[$key]);
+	}
+}
+
 if (empty($_SESSION['authenticated']) && empty($page)) {
 	$page = 'login';
 }
 
 if ($config['authType'] == 'slam' && is_numeric($_SESSION['id'])) {
 	mysql_query("UPDATE  ".$SQL['DATABASE'].".userAccounts SET  `lastSeen` =  '".time()."' WHERE  id = ".$_SESSION['id'].";");
+	$_SESSION['lastSeen'] = time();
 }
 
 if (empty($page)) {

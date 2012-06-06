@@ -56,6 +56,7 @@ function checkAuthentication($authType, $username, $password) {
 				$_SESSION['displayName'] = $user['displayName'];
 				$_SESSION['id'] = $user['id'];
 				$_SESSION['isAdmin'] = filter_var($user['isAdmin'], FILTER_VALIDATE_BOOLEAN);
+				$_SESSION['lastSeen'] = time();
 				if (filter_var($user['forcePasswordChange'], FILTER_VALIDATE_BOOLEAN)) {
 					$_SESSION['newPassword'] = true;
 				}
