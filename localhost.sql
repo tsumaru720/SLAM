@@ -24,6 +24,27 @@ USE `tracker`;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `apiConfiguration`
+--
+
+CREATE TABLE IF NOT EXISTS `apiConfiguration` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `friendlyName` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `value` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `apiConfiguration`
+--
+
+INSERT INTO `apiConfiguration` (`id`, `name`, `friendlyName`, `value`) VALUES
+(1, 'secret', 'API Secret', 'KeyG0esHer3!'),
+(2, 'tolerance', 'Key Tolerance (seconds)', '5');
+
+
+--
 -- Table structure for table `computerChangeLog`
 --
 

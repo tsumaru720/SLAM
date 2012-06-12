@@ -30,7 +30,7 @@ function getBody() {
 	echo '<pre>';
 
 	var_dump($_SESSION);
-	var_dump(ini_get( 'session.gc_maxlifetime'));
+	echo '';
 	var_dump($config);
 	echo '</pre>';
 }
