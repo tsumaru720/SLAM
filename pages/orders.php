@@ -576,7 +576,9 @@ function doFindOrder() {
 	<?php
 
 	$linkURL = '?p=orders&a=find&query='.urlencode($queryString).'&state='.urlencode($state).'&queryType='.urlencode($queryType);
-	
+	if ($_POST) {
+		header('Location: '.(dirname($_SERVER['SCRIPT_NAME']) != '/' ? dirname($_SERVER['SCRIPT_NAME']) : '').'/'.$linkURL);
+	}
 	if (isset($queryString)) {
 		$queryString = mysql_real_escape_string($queryString);
 		$state = mysql_real_escape_string($state);

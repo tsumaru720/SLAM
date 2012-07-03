@@ -262,9 +262,11 @@ function doComputerSearch($queryString, $queryLocation, $queryType, $state, $act
 	//original
 	//$query = mysql_query("SELECT computers.id, computers.name, computers.serial, locations.friendlyname, computers.created, computers.createdby, computers.modified, computers.modifiedby, computers.active FROM ".$SQL['DATABASE'].".computers, ".$SQL['DATABASE'].".locations WHERE (serial LIKE '".$queryString."' OR name LIKE '".$queryString."' OR createdby LIKE '".$queryString."' OR modifiedby LIKE '".$queryString."' OR locations.friendlyName LIKE '".$queryString."' OR comments LIKE '".$queryString."') AND computers.location = locations.id AND computers.location LIKE '".$queryLocation."' AND computers.active LIKE '".$active."' ORDER BY name ASC");
 
-
 	$linkURL = '?p=computers&a=find&query='.urlencode($queryString).'&location='.urlencode($queryLocation).'&searchIn=computers&state='.urlencode($state).'&queryType='.urlencode($queryType);
-
+	if ($_POST) {
+		header('Location: '.(dirname($_SERVER['SCRIPT_NAME']) != '/' ? dirname($_SERVER['SCRIPT_NAME']) : '').'/'.$linkURL);
+	}
+	
 	$queryString = mysql_real_escape_string($queryString);
 	$queryLocation = mysql_real_escape_string($queryLocation);
 	$queryType = mysql_real_escape_string($queryType);
@@ -313,6 +315,9 @@ function doChangeLogSearch($queryString, $queryLocation, $queryType) {
 	//$query = mysql_query("SELECT computers.id, changelog.date, changelog.changedby, changelog.field, changelog.old, changelog.new, computers.name, computers.serial FROM ".$SQL['DATABASE'].".computerChangeLog as changelog, ".$SQL['DATABASE'].".computers WHERE (changelog.changedby LIKE '".$queryString."' OR changelog.old LIKE '".$queryString."' OR changelog.new LIKE '".$queryString."') AND computers.id = changelog.computerid ORDER BY date DESC LIMIT 0,9999");
 	
 	$linkURL = '?p=computers&a=find&query='.urlencode($queryString).'&location='.urlencode($queryLocation).'&searchIn=chlog&queryType='.urlencode($queryType);
+	if ($_POST) {
+		header('Location: '.(dirname($_SERVER['SCRIPT_NAME']) != '/' ? dirname($_SERVER['SCRIPT_NAME']) : '').'/'.$linkURL);
+	}
 
 	$queryString = mysql_real_escape_string($queryString);
 	$queryLocation = mysql_real_escape_string($queryLocation);
