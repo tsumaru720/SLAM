@@ -1,8 +1,8 @@
-<?php
+<?php	
 ob_start();
 
 if (!file_exists(dirname(__FILE__).'/../config.php')) {
-	apiError('NO CONFIG', 'No SQL Configuration file was found.', true);
+	apiError('NO_CONFIG', 'No SQL Configuration file was found.', true);
 } else {
 	require_once(dirname(__FILE__).'/../config.php');
 	$SQL['RESOURCE'] = mysql_connect($SQL['HOST'].':'.$SQL['PORT'], $SQL['USERNAME'], $SQL['PASSWORD']) or die(mysql_error());
@@ -12,7 +12,7 @@ if (!file_exists(dirname(__FILE__).'/../config.php')) {
 	}
 	
 	if (empty($config['secret'])) {
-		apiError('NO SECRET', 'No Token/Encryption secret is defined.', true);
+		apiError('NO_SECRET', 'No Token/Encryption secret is defined.', true);
 	}
 	if ($config['tolerance'] < 1 || $config['tolerance'] > 60) {
 		//No time is set for token validity or is too large. Use 10 instead
@@ -47,18 +47,43 @@ function checkToken($host, $token) {
 	}
 }
 
+function updateComputerChangeLog($computerID, $field, $old, $new) {
+	global $SQL;
+	mysql_query("INSERT INTO ".$SQL['DATABASE'].".computerChangeLog (
+		`id`,
+		`computerid`,
+		`changedby`,
+		`field`,
+		`old`,
+		`new`,
+		`date`
+		) VALUES (NULL,
+		'".$computerID."',
+		'API',
+		'".$field."',
+		'".$old."',
+		'".$new."',
+		'".time()."')");
+}
 
 function apiError($short, $desc, $fatal = false) {
 	global $apiError;
-	
-	$apiError['short'] = $short;
-	$apiError['desc'] = $desc;
-	
+
+	$apiError = null;
+	$apiError = apiOut('error', $short, $desc);
+
 	if ($fatal == true) {
 		ob_end_clean();
-		echo '<p>Error: ('.$short.') '.$desc.'</p>';
+		echo $apiError;
 		die();
 	}
+}
+
+function apiOut($status, $type, $message) {
+	$out['status'] = $status;
+	$out['type'] = $type;
+	$out['message'] = $message;
+	return json_encode($out);
 }
 
 ?>

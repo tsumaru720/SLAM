@@ -212,6 +212,8 @@ CREATE TABLE IF NOT EXISTS `licenses` (
 CREATE TABLE IF NOT EXISTS `locations` (
   `id` tinyint(4) NOT NULL AUTO_INCREMENT,
   `friendlyName` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `mapper` varchar(400) COLLATE utf8_unicode_ci NOT NULL,
+  `defaultFee` float NOT NULL DEFAULT '-1',
   `corporate` tinyint(4) NOT NULL DEFAULT '0',
   `hidden` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
@@ -221,8 +223,8 @@ CREATE TABLE IF NOT EXISTS `locations` (
 -- Dumping data for table `locations`
 --
 
-INSERT INTO `locations` (`id`, `friendlyName`, `corporate`, `hidden`) VALUES
-(2, 'Example Location', 1, 0);
+INSERT INTO `locations` (`id`, `friendlyName`, `mapper`, `defaultFee`, `corporate`, `hidden`) VALUES
+(2, 'Example Location', '', -1, 1, 0);
 
 -- --------------------------------------------------------
 

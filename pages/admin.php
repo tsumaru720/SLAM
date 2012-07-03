@@ -507,12 +507,16 @@ function doLocations() {
 			$query = mysql_query("INSERT INTO ".$SQL['DATABASE'].".".$defaultTable." (
 									`id` ,
 									`friendlyName`,
+									`mapper`,
+									`defaultFee`,
 									`corporate`,
 									`hidden`
 									)
 									VALUES (
 									NULL ,
 									'".mysql_real_escape_string($_POST['name'])."',
+									'',
+									'-1',
 									'".(($_POST['corporate']) ? '1' : '0')."',
 									'0'
 									)");
