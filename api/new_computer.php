@@ -28,7 +28,40 @@ if ($_GET['token']) {
 			}
 		} else {
 			//Not in Database - Add it
-			echo apiOut('ok', '', 'Successfully Added '.$computerInfo['name']);
+			$query = mysql_query("SELECT name, value FROM ".$SQL['DATABASE'].".configuration");
+			while ($sqlConfig = mysql_fetch_assoc($query)) {
+				if (empty($config[$sqlConfig['name']])) {
+					$config[$sqlConfig['name']] = $sqlConfig['value'];
+				}
+			}
+			
+			$query = mysql_query("SELECT friendlyName, defaultFee FROM ".$SQL['DATABASE'].".locations WHERE id = ".$config['location']);
+			$defaultLoc = mysql_fetch_assoc($query);
+			
+			if ($defaultLoc['defaultFee'] >= 0) {
+				$fee = $defaultLoc['defaultFee'];
+			} else {
+				$fee = $config['defaultMaintenanceFee'];
+			}
+			
+			$locationName = $defaultLoc['friendlyName'];
+			$locationID = $config['location'];
+			
+			$query = mysql_query("SELECT id, friendlyName, mapper, defaultFee FROM ".$SQL['DATABASE'].".locations");
+			while ($loc = mysql_fetch_assoc($query)) {
+				if (!empty($loc['mapper'])) {
+					preg_match('/^'.$loc['mapper'].'$/i', $args['host'], $result);
+					if ($result) {
+						$locationID = $loc['id'];
+						$locationName = $loc['friendlyName'];
+						if ($loc['defaultFee'] >= 0) {
+							$fee = $loc['defaultFee'];
+						}
+						break;
+					}
+				}
+			}
+			echo apiOut('ok', '', 'Successfully added '.$args['host'].' to '.$locationName);
 			$query = mysql_query("INSERT INTO ".$SQL['DATABASE'].".computers (
 						`id`,
 						`serial`, 
@@ -45,8 +78,8 @@ if ($_GET['token']) {
 						NULL, 
 						'".$args['serial']."', 
 						'".$args['host']."', 
-						'2', 
-						'5.5', 
+						'".$locationID."', 
+						'".$fee."', 
 						'API', 
 						'API', 
 						'".time()."', 

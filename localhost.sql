@@ -41,7 +41,8 @@ CREATE TABLE IF NOT EXISTS `apiConfiguration` (
 
 INSERT INTO `apiConfiguration` (`id`, `name`, `friendlyName`, `value`) VALUES
 (1, 'secret', 'API Secret', 'KeyG0esHer3!'),
-(2, 'tolerance', 'Key Tolerance (seconds)', '5');
+(2, 'tolerance', 'Key Tolerance (seconds)', '5'),
+(3, 'location', 'Default Location', '2');
 
 
 --
