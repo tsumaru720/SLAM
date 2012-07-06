@@ -29,6 +29,7 @@ if ((time() - $_SESSION['lastSeen']) >= $config['timeout']) {
 	foreach ($_SESSION as $key => $value) {
 		unset($_SESSION[$key]);
 	}
+	$errorMsg = 'Session timeout';
 }
 
 if (empty($_SESSION['authenticated']) && empty($page)) {
