@@ -24,12 +24,14 @@ if (!file_exists(dirname(__FILE__).'/config.php')) {
 }
 
 if ((time() - $_SESSION['lastSeen']) >= $config['timeout']) {
-	//Force all session information to be cleared.
-	//This will ensure the user needs to log on again.
-	foreach ($_SESSION as $key => $value) {
-		unset($_SESSION[$key]);
+	if ($_SESSION) {
+		//Force all session information to be cleared.
+		//This will ensure the user needs to log on again.
+		foreach ($_SESSION as $key => $value) {
+			unset($_SESSION[$key]);
+		}
+		$errorMsg = 'Session timeout';
 	}
-	$errorMsg = 'Session timeout';
 }
 
 if (empty($_SESSION['authenticated']) && empty($page)) {
